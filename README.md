@@ -1,5 +1,6 @@
 # TI_Fighter
 
+*WORK IN PROGRESS*
 This repository is a fork for the development of the game TI_Fighter on CAMEL99
 Forth (https://github.com/bfox9900/CAMEL99-V2) for the TI-99.
 
