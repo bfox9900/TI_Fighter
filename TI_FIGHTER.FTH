@@ -8,6 +8,7 @@ NEEDS VALUE     FROM DSK1.VALUES
 NEEDS HCHAR     FROM DSK1.GRAFIX
 NEEDS SPRITE    FROM DSK1.DIRSPRIT
 NEEDS SMT.X     FROM DSK1.MOTION
+NEEDS JOYST     FROM DSK1.JOYST
 
 MARKER  /FIGHTER
 
@@ -306,12 +307,8 @@ DECIMAL
   \ simple delay loop
    0 DO LOOP ;
 
-: ClrKey ( --)
-    \ Wait for no keypress and key? to return -1
-    BEGIN
-        -1 KEY? <> WHILE
-    REPEAT
-    ;
+: ClrKey ( -- ) \ Wait for no keypress
+    BEGIN  KEY? 0= UNTIL ;
 
 : IncMoveTime ( --)
     \ Increments the CALC_MOVE_TIME of current PlayerObj
@@ -335,7 +332,7 @@ DECIMAL
     PlayerObj CALC_KICK? + not
     IF
         \ If not kicking
-        PlayerObj @ 0 -1 SPRVEC    \ Move left
+        PlayerObj @ 0 -1 MOTION    \ Move left
         FACE_LEFT PlayerObj CALC_DIR + !
         IncMoveTime
     THEN
@@ -344,7 +341,7 @@ DECIMAL
 : MoveRight ( --)
     \ Handle joystick moving right
     \ Called from Calc
-    PlayerObj CALC_KICK? + not
+    PlayerObj CALC_KICK? + 0=
     IF
         \ If not kicking
         PlayerObj @ 0 1 SPRVEC    \ Move right
@@ -457,21 +454,21 @@ DECIMAL
         \ Flag that PowerBars need to be updated
         True TO UpdateBars?
     ELSE
-    PlayerObj CALC_DIR + @ FACE_RIGHT = \ kicker is facing right
-    Kickie SPRLOC? SWAP DROP
-    Kicker SPRLOC? SWAP DROP
-    > \ kickie is to the right of kicker
-    AND \ and kicker is facing right
-    IF
-        \ send Kickie flying to the right
-        Kickie 0 25 SPRVEC \ Move right
+         PlayerObj CALC_DIR + @ FACE_RIGHT = \ kicker is facing right
+         Kickie SPRLOC? SWAP DROP
+         Kicker SPRLOC? SWAP DROP
+          > \ kickie is to the right of kicker
+         AND \ and kicker is facing right
+         IF
+             \ send Kickie flying to the right
+             Kickie 0 25 SPRVEC \ Move right
 
-        \ Subtract Power from opponent
-        -1 PlayerObj CALC_OPP_PLAYER + @ CALC_POWER + +!
+             \ Subtract Power from opponent
+             -1 PlayerObj CALC_OPP_PLAYER + @ CALC_POWER + +!
 
-        \ Flag that PowerBars need to be updated
-        True TO UpdateBars?
-    THEN
+             \ Flag that PowerBars need to be updated
+              True TO UpdateBars?
+          THEN
     THEN
     ;
 
@@ -503,8 +500,6 @@ DECIMAL
                 19 3 (Player2) PowerLevel
             THEN
         THEN
-
-
     THEN
 ;
 
