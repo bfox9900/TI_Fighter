@@ -12,16 +12,16 @@ NEEDS SMT.X     FROM DSK1.MOTION
 MARKER  /FIGHTER
 
 DECIMAL
-   0 VALUE Column                       \ used by DrawIt
+   0 VALUE Column               \ used by DrawIt
    0 VALUE Row                  \ used by DrawIt
 
    1 CONSTANT Fire?             \ comparison check for fire button
    2 CONSTANT Left?             \ comparison check for left
    4 CONSTANT Right?            \ comparison check for right
    8 CONSTANT Down?             \ comparison check for down
-  16 CONSTANT Up?                       \ comparison check for up
+  16 CONSTANT Up?               \ comparison check for up
   13 CONSTANT ENTER             \ key code for ENTER key
- 300 CONSTANT DelayTime \ delay loop count
+ 300 CONSTANT DelayTime         \ delay loop count
 
 \ PlayerObj : Current PlayerObj
 0 VALUE PlayerObj
@@ -303,7 +303,7 @@ DECIMAL
     ;
 
 : Delay ( delay--)
-  \ simple delay loop
+\ simple delay loop
    0 DO LOOP ;
 
 : ClrKey ( --)
@@ -332,7 +332,7 @@ DECIMAL
 : MoveLeft ( --)
     \ Handle joystick moving left
     \ Called from Calc
-    PlayerObj CALC_KICK? + not
+    PlayerObj CALC_KICK? + NOT
     IF
         \ If not kicking
         PlayerObj @ 0 -1 SPRVEC    \ Move left
@@ -374,7 +374,7 @@ DECIMAL
         MoveRight
     ELSE
         \ Default
-        PlayerObj @ 0 0 SPRVEC \ Stop moving
+        PlayerObj @ 0 0 SPRVEC  \ Stop moving
     THEN THEN THEN
 
     \ Save joyst value
@@ -507,7 +507,6 @@ DECIMAL
 
     THEN
 ;
-
 
 : MainLoop ( --)
     \ Main game loop. Continue until key is pressed
